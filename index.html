@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>G.EDU — IELTS Reading Test 5</title>
+<title>G.EDU — IELTS Reading Test [SỐ TEST]</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -136,86 +136,109 @@ input, select, textarea{ font-family: inherit; }
 }
 
 /* ============================================================
-   2. EXAM SCREEN — LAYOUT
+   2. EXAM SCREEN — LAYOUT (TOP BAR + 2 PANELS)
    ============================================================ */
 #screen-exam{ display:none; height:100%; width:100%; }
 #screen-exam.active{ display:flex; }
 
 .exam-shell{
-  display:flex; width:100%; height:100%;
+  display:flex; flex-direction:column; width:100%; height:100%;
 }
 
-/* ---- Sidebar ---- */
-.sidebar{
-  width: var(--sidebar-w); min-width:var(--sidebar-w);
-  background: var(--navy); color:#fff;
-  display:flex; flex-direction:column;
-  height:100%;
+/* ---- Top Bar ---- */
+.topbar{
+  background: var(--navy); color:#fff; flex-shrink:0;
+  display:flex; align-items:center; gap:0;
+  height:52px; border-bottom:2px solid rgba(212,175,55,0.3);
+  padding:0; overflow:hidden;
 }
-.sb-brand{
-  padding:22px 22px 16px; border-bottom:1px solid rgba(255,255,255,0.08);
+.tb-brand{
+  display:flex; align-items:center; gap:10px;
+  padding:0 16px; border-right:1px solid rgba(255,255,255,0.1);
+  flex-shrink:0; height:100%;
 }
-.sb-brand-logo{
-  font-family: var(--font-display); font-weight:700; font-size:21px; color: var(--gold); letter-spacing:1.5px;
+.tb-brand-logo{
+  font-family: var(--font-display); font-weight:700; font-size:17px;
+  color: var(--gold); letter-spacing:1.5px; line-height:1;
 }
-.sb-brand-sub{ font-size:10.5px; letter-spacing:2px; text-transform:uppercase; color:rgba(255,255,255,0.45); margin-top:3px; }
+.tb-brand-sub{
+  font-size:9.5px; letter-spacing:1.5px; text-transform:uppercase;
+  color:rgba(255,255,255,0.4); margin-top:3px;
+}
+.tb-student{
+  padding:0 14px; border-right:1px solid rgba(255,255,255,0.1);
+  font-size:11.5px; color:rgba(255,255,255,0.7); flex-shrink:0;
+  white-space:nowrap; height:100%; display:flex; align-items:center; gap:4px;
+}
+.tb-student b{ color:#fff; font-weight:600; }
 
-.sb-student{
-  padding:14px 22px; border-bottom:1px solid rgba(255,255,255,0.08);
-  font-size:12.5px; color:rgba(255,255,255,0.75); line-height:1.7;
+/* Question Map nằm ngang inline */
+.tb-qmap-wrap{
+  flex:1; padding:0 12px; height:100%; display:flex; align-items:center; gap:10px;
+  overflow:hidden; min-width:0;
 }
-.sb-student b{ color:#fff; font-weight:600; }
-
-.sb-timer-wrap{ padding:16px 22px; border-bottom:1px solid rgba(255,255,255,0.08); }
-.sb-timer-label{ font-size:10.5px; letter-spacing:1.5px; text-transform:uppercase; color:rgba(255,255,255,0.45); margin-bottom:6px; }
-.sb-timer{
-  font-family: var(--font-display); font-weight:700; font-size:30px; color:#fff; letter-spacing:1px;
-  font-variant-numeric: tabular-nums;
-}
-.sb-timer.warn{ color: var(--flag); animation: pulseWarn 1s infinite; }
-@keyframes pulseWarn{ 0%,100%{opacity:1;} 50%{opacity:.55;} }
-
-.sb-map-wrap{ flex:1; overflow-y:auto; padding:16px 22px; }
-.sb-map-label{
-  font-size:10.5px; letter-spacing:1.5px; text-transform:uppercase; color:rgba(255,255,255,0.45);
-  margin-bottom:10px; display:flex; align-items:center; justify-content:space-between;
+.tb-qmap-label{
+  font-size:9px; letter-spacing:1px; text-transform:uppercase;
+  color:rgba(255,255,255,0.35); white-space:nowrap; flex-shrink:0;
 }
 .qmap{
-  display:grid; grid-template-columns: repeat(5, 1fr); gap:7px;
+  display:flex; flex-wrap:nowrap; gap:3px; overflow-x:auto; flex:1;
+  scrollbar-width:none; /* Firefox */
 }
+.qmap::-webkit-scrollbar{ display:none; }
 .qmap-cell{
-  aspect-ratio:1; display:flex; align-items:center; justify-content:center;
-  border-radius:6px; border:1.5px solid rgba(255,255,255,0.18);
-  font-size:12px; font-weight:600; color:rgba(255,255,255,0.55);
-  background:rgba(255,255,255,0.03);
-  transition: all .15s;
+  flex-shrink:0; width:24px; height:24px;
+  display:flex; align-items:center; justify-content:center;
+  border-radius:4px; border:1px solid rgba(255,255,255,0.18);
+  font-size:9.5px; font-weight:600; color:rgba(255,255,255,0.5);
+  background:rgba(255,255,255,0.03); transition: all .12s; cursor:pointer;
 }
 .qmap-cell:hover{ border-color: var(--gold); color:#fff; }
 .qmap-cell.answered{ background: var(--gold); border-color:var(--gold); color: var(--navy); }
 .qmap-cell.flagged{ border-color: var(--flag); color: var(--flag); }
 .qmap-cell.answered.flagged{ background: var(--gold); border-color: var(--flag); color: var(--navy); position:relative; }
 .qmap-cell.answered.flagged::after{
-  content:""; position:absolute; top:-3px; right:-3px; width:8px; height:8px;
-  border-radius:50%; background: var(--flag); border:1.5px solid var(--navy);
+  content:""; position:absolute; top:-2px; right:-2px; width:5px; height:5px;
+  border-radius:50%; background: var(--flag); border:1px solid var(--navy);
 }
 .qmap-cell.current{ outline:2px solid #fff; outline-offset:1px; }
+.tb-map-progress{
+  font-size:10px; font-weight:700; color:rgba(255,255,255,0.5); white-space:nowrap; flex-shrink:0;
+}
 
-.sb-actions{ padding:16px 22px 20px; border-top:1px solid rgba(255,255,255,0.08); display:flex; flex-direction:column; gap:9px; }
+/* Timer + Actions */
+.tb-timer-wrap{
+  padding:0 14px; border-left:1px solid rgba(255,255,255,0.1);
+  border-right:1px solid rgba(255,255,255,0.1);
+  height:100%; display:flex; align-items:center; gap:6px; flex-shrink:0;
+}
+.tb-timer-label{ font-size:9px; letter-spacing:1px; text-transform:uppercase; color:rgba(255,255,255,0.4); }
+.sb-timer{
+  font-family: var(--font-display); font-weight:700; font-size:20px; color:#fff;
+  font-variant-numeric: tabular-nums; line-height:1; letter-spacing:1px;
+}
+.sb-timer.warn{ color: var(--flag); animation: pulseWarn 1s infinite; }
+@keyframes pulseWarn{ 0%,100%{opacity:1;} 50%{opacity:.55;} }
+
+.tb-actions{
+  display:flex; align-items:center; gap:8px; padding:0 14px; height:100%; flex-shrink:0;
+}
 .sb-btn{
-  width:100%; padding:11px; border-radius:8px; font-size:12.5px; font-weight:700;
-  letter-spacing:1px; text-transform:uppercase; transition: all .15s; text-align:center;
+  height:32px; padding:0 12px; border-radius:7px; font-size:11px; font-weight:700;
+  letter-spacing:0.8px; text-transform:uppercase; transition: all .15s;
+  white-space:nowrap; display:flex; align-items:center; gap:5px;
 }
 .sb-btn-flag{
   background:transparent; border:1.5px solid var(--flag); color: var(--flag);
 }
-.sb-btn-flag:hover{ background: rgba(225,112,85,0.12); }
+.sb-btn-flag:hover{ background: rgba(225,112,85,0.15); }
 .sb-btn-submit{
   background: transparent; border:1.5px solid var(--gold); color: var(--gold);
 }
 .sb-btn-submit:hover{ background: var(--gold); color: var(--navy); }
 
 /* ---- Main exam area ---- */
-.exam-main{ flex:1; display:flex; flex-direction:column; height:100%; min-width:0; }
+.exam-main{ flex:1; display:flex; flex-direction:column; min-height:0; overflow:hidden; }
 
 .tabs-bar{
   display:flex; gap:4px; padding:0 18px; background:#fff; border-bottom:2px solid var(--navy);
@@ -513,25 +536,83 @@ input, select, textarea{ font-family: inherit; }
    8. RESPONSIVE
    ============================================================ */
 @media (max-width: 1024px){
-  .sidebar{ width:230px; min-width:230px; }
   .panel-left, .panel-right{ padding:24px 22px; }
+  .tb-brand-sub, .tb-student{ display:none; } /* ẩn bớt trên màn hẹp */
 }
 @media (max-width: 860px){
-  .exam-shell{ flex-direction:column; }
-  .sidebar{ width:100%; min-width:0; flex-direction:row; flex-wrap:wrap; height:auto; }
   .split-container{ flex-direction:column; }
   .resizer{ display:none; }
   .panel-left, .panel-right{ width:100% !important; height:50%; }
   .sheet-grid{ grid-template-columns: repeat(5,1fr); }
+  .tb-qmap-wrap{ display:none; } /* ẩn qmap ngang trên mobile, vẫn mở được qua panel flag */
 }
-
-/* fit-to-screen safeguard: shrink sidebar font/padding on short viewports */
 @media (max-height: 720px){
-  .sb-brand{ padding:14px 22px 10px; }
-  .sb-student{ padding:8px 22px; }
-  .sb-timer-wrap{ padding:10px 22px; }
-  .sb-timer{ font-size:24px; }
-  .sb-actions{ padding:10px 22px 14px; }
+  .topbar{ height:44px; }
+  .sb-timer{ font-size:17px; }
+  .sb-btn{ height:28px; font-size:10px; padding:0 9px; }
+}
+/* ============================================================
+   CLOZE INLINE STYLES
+   ============================================================ */
+.cloze-block {
+  font-size: 14.5px; line-height: 2; color: var(--ink);
+  background: #fdfaf3; border: 1px solid var(--line);
+  border-left: 3px solid var(--gold); border-radius: 8px;
+  padding: 16px 18px;
+}
+.cloze-block p { margin-bottom: 10px; }
+.cloze-title {
+  font-family: var(--font-display); font-weight: 600;
+  font-size: 15px; color: var(--navy); margin-bottom: 14px;
+}
+.cloze-section { margin-bottom: 10px; }
+.cloze-arrow {
+  text-align: center; font-size: 20px; color: var(--gold);
+  margin: 4px 0; line-height: 1;
+}
+.cloze-slot {
+  display: inline-block; position: relative;
+}
+.cloze-slot input[type=text] {
+  display: inline-block; width: 130px; padding: 3px 8px;
+  border: none; border-bottom: 2px solid var(--gold);
+  background: transparent; font-size: 14px; font-weight: 600;
+  color: var(--navy); font-family: var(--font-body);
+  outline: none; vertical-align: baseline; border-radius: 0;
+  text-align: center;
+}
+.cloze-slot input[type=text]:focus {
+  border-bottom-color: var(--navy);
+  background: rgba(212,175,55,0.08);
+}
+.cloze-slot input[type=text]:disabled { opacity: 0.7; }
+.cloze-slot .cloze-qnum {
+  display: inline-block; font-size: 10px; font-weight: 700;
+  color: var(--gold); background: var(--navy);
+  border-radius: 3px; padding: 1px 4px; margin-right: 3px;
+  vertical-align: middle; line-height: 1.4;
+}
+.cloze-slot select.ans-select-inline {
+  display: inline-block; padding: 3px 6px;
+  border: none; border-bottom: 2px solid var(--gold);
+  background: transparent; font-size: 13.5px; font-weight: 600;
+  color: var(--navy); font-family: var(--font-body);
+  outline: none; vertical-align: baseline; border-radius: 0;
+  min-width: 110px; cursor: pointer;
+}
+.cloze-slot select.ans-select-inline:focus { border-bottom-color: var(--navy); }
+.cloze-slot select.ans-select-inline:disabled { opacity: 0.7; }
+.cloze-bank {
+  border-collapse: collapse; margin-bottom: 10px;
+  font-size: 13.5px; width: 100%;
+}
+.cloze-bank td { padding: 4px 12px 4px 0; }
+/* cloze wrapper qitem — no separate qnum circle for multi-slot groups */
+.qitem-cloze { flex-direction: column; gap: 8px; }
+.qitem-cloze .qnum-row {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 11px; font-weight: 700; color: var(--ink-soft);
+  text-transform: uppercase; letter-spacing: 0.5px;
 }
 </style>
 </head>
@@ -542,7 +623,7 @@ input, select, textarea{ font-family: inherit; }
   <div class="login-card">
     <div class="login-logo">G<span>.</span>EDU</div>
     <div class="login-sub">IELTS Academic Reading</div>
-    <div class="login-test-name" id="login-test-name">Reading Test 5</div>
+    <div class="login-test-name" id="login-test-name">[TÊN BÀI TEST — VD: Reading Test 7]</div>
     <div class="login-divider"></div>
 
     <div class="login-field">
@@ -565,36 +646,35 @@ input, select, textarea{ font-family: inherit; }
 <div class="screen" id="screen-exam">
   <div class="exam-shell">
 
-    <!-- ---- Sidebar ---- -->
-    <aside class="sidebar">
-      <div class="sb-brand">
-        <div class="sb-brand-logo">G<span style="color:var(--gold)">.</span>EDU</div>
-        <div class="sb-brand-sub" id="sb-test-name">[TÊN BÀI TEST]</div>
+    <!-- ---- Top Bar ---- -->
+    <div class="topbar">
+      <div class="tb-brand">
+        <div>
+          <div class="tb-brand-logo">G<span style="color:var(--gold)">.</span>EDU</div>
+          <div class="tb-brand-sub" id="sb-test-name">[TÊN BÀI TEST]</div>
+        </div>
       </div>
 
-      <div class="sb-student">
-        <b id="sb-student-name">—</b><br>
-        Lớp: <span id="sb-student-class">—</span>
+      <div class="tb-student">
+        <b id="sb-student-name">—</b>&nbsp;·&nbsp;Lớp:&nbsp;<span id="sb-student-class">—</span>
       </div>
 
-      <div class="sb-timer-wrap">
-        <div class="sb-timer-label">Thời gian còn lại</div>
+      <div class="tb-qmap-wrap">
+        <div class="tb-qmap-label">MAP</div>
+        <div class="qmap" id="qmap"></div>
+        <div class="tb-map-progress" id="sb-map-progress">0/40</div>
+      </div>
+
+      <div class="tb-timer-wrap">
+        <div class="tb-timer-label">Còn lại</div>
         <div class="sb-timer" id="sb-timer">60:00</div>
       </div>
 
-      <div class="sb-map-wrap">
-        <div class="sb-map-label">
-          <span>Question Map</span>
-          <span id="sb-map-progress">0/40</span>
-        </div>
-        <div class="qmap" id="qmap"><!-- [JS GENERATED: 40 ô qmap-cell] --></div>
-      </div>
-
-      <div class="sb-actions">
-        <button class="sb-btn sb-btn-flag" id="btn-open-flags">🚩 Xem câu đánh dấu</button>
+      <div class="tb-actions">
+        <button class="sb-btn sb-btn-flag" id="btn-open-flags">🚩 Đánh dấu</button>
         <button class="sb-btn sb-btn-submit" id="btn-submit">Nộp bài</button>
       </div>
-    </aside>
+    </div>
 
     <!-- ---- Main ---- -->
     <main class="exam-main">
@@ -736,12 +816,12 @@ input, select, textarea{ font-family: inherit; }
    ============================================================ */
 
 /* ---------- 0. CONFIG — TODO[AI STUDIO]: điền các giá trị này ---------- */
-const TEST_NAME   = 'reading_test5';        // Reading Test 5
-const TEST_LABEL  = 'Reading Test 5';
+const TEST_NAME   = 'reading_test5';        // TODO: vd 'reading_test7' — dùng để route sheet tab + localStorage prefix
+const TEST_LABEL  = 'Reading Test 5';       // TODO: tên hiển thị, vd 'Reading Test 7'
 const GAS_URL     = 'https://script.google.com/macros/s/AKfycbze-ULqfpnB5IcJxAvg2m7IfSqkoUY4JmoHnjvpuGvxodzmLbhHHlcqxfcnha2aahY/exec';
 const DURATION_MIN = 60;                    // phút làm bài
 const TOTAL_QUESTIONS = 40;
-const LS_PREFIX = 'rt5_';
+const LS_PREFIX = TEST_NAME.replace('reading_','rt_') + '_'; // vd rt_testX_ -> tuỳ chỉnh nếu muốn ngắn hơn (rt7_)
 
 document.getElementById('login-test-name').textContent = TEST_LABEL;
 document.getElementById('sb-test-name').textContent = TEST_LABEL;
@@ -835,137 +915,233 @@ document.querySelectorAll('[data-locked-id]').forEach(el=>{
 ------------------------------------------------------------- */
 const PASSAGES = [
   {
-    title: `Reef fish study`,
-    meta: `Tom Holmes examines the relationship between size and survival in fish on Australia's Great Barrier Reef`,
-    html: `<p>[A] It is a widely held belief among those who study animals that larger size conveys some form of advantage throughout life. The idea that certain body characteristics may influence a prey's ability to survive when being attacked by a predator has received considerable attention in the past, and has been applied to a wide range of both animals and habitats. Body size, weight, growth rate, overall condition, sensory development and escape speed have all been linked to survival. Of these, body size has received the most attention from researchers, which has subsequently led to the development of a number of theories on how this characteristic may influence the predator-prey relationship. One of the most popular of these is known as the 'bigger is better' hypothesis. This theory predicts that larger body size should increase an individual's ability to escape from a predator due to the characteristics associated with this, such as overall strength and visual development. Bigger is thought to be better, but is this always the case?</p>
-<p>[B] Compared with other habitats and ecosystems, not a great deal is known about predator-prey relationships within tropical reef communities. What we do know is largely limited to predator identity and, to some extent, to what these predators eat. But what drives these interactions and how does body size influence the outcome? How would fish populations respond to the removal of certain predators from a reef fish community? It is precisely these questions that have led our research team to Lizard Island, in the northern sector of the Great Barrier Reef. We want to examine the predator-prey relationship during the 'early juvenile' or larval phase of tropical fish, and determine whether a predator's choice of prey is influenced by factors such as the prey's size, weight and swimming speed, as these characteristics vary from individual to individual at the beginning of the juvenile stage.</p>
-<p>[C] Most coral reef fish have a life cycle consisting of an open ocean larval phase followed by a juvenile to adult phase near the reef. The transition between the two stages is marked by rapid and dramatic changes in the body of the fish, and a sudden move from the open ocean to coral reef habitats. This point is commonly known as 'settlement'. Not surprisingly, it is also characterised by increased levels of mortality in the first 48 hours following settlement, as individuals are forced to adapt to life not only on the reef but also with a previously unknown set of predators.</p>
-<p>[D] However, studying the interactions between predators and prey during this phase is no easy task. On the northern Great Barrier Reef, coral reef fish settlement usually occurs within 2-3 days of a new moon during the warmer summer months. These short windows of opportunity, combined with the difficulties associated with working underwater, transporting fish and adapting them to the laboratory, often make research a daunting task. These obstacles are overcome using a combination of innovative techniques, long working hours and a measure of sheer persistence. We collect the larval fish immediately prior to settlement using purpose-built traps that use artificial light to attract and contain fish of this life stage only. These fish are subsequently transported to an aquarium, along with predatory fish, before being used in a series of aquarium and field-based trials.</p>
-<p>[E] According to the 'bigger is better' hypothesis, being larger at the time of settlement should result in an increased chance of surviving an attack by a predator during the period immediately following settlement. However, our initial research shows that this is not always true. There may be several reasons for this.</p>
-<p>[F] Communities of reef-based predators can differ considerably over quite small distances. Species that are abundant in one location may be particularly rare in a similar habitat just 100 metres away. In the same way that different predators prefer different types of prey, so too do they prefer different sizes of prey. This relationship is driven by physical characteristics of predators, such as mouth size, and behavioural differences between different predator species. As a result, the predator community into which a reef fish settles may very well determine which individuals survive.</p>
-<p>[G] So why don't larger individuals survive more often than smaller fish over this period? The answer may well lie in an alternative hypothesis known as 'optimal foraging theory'. According to this theory, being either very large or very small in size should assist prey to escape during a predatory encounter. The theory predicts that a predator should prefer those individuals that provide the greatest energy return. This is generally a trade-off between the potential energy intake from eating a fish and the amount of energy required to catch it. Larger prey provide a higher energy return but smaller prey generally require less energy to catch. This usually results in a preference for medium-sized prey.</p>
-<p>[H] At the time of settlement, juvenile reef fish vary in the characteristics that can help them survive a predatory attack. However, these characteristics are not strongly associated with body size. For example, larger individuals are not necessarily faster. This means that they may be easier to catch than smaller prey. If this is the case then, according to the optimal foraging theory, predators should prefer larger prey because of their greater energy return. Consequently, larger prey individuals may be targeted by some predators at the time of settlement. Our research hopes to show that larger size may, in fact, be a distinct disadvantage during certain life stages.</p>`
+    title: 'Reef fish study',
+    meta: 'Passage 1',
+    html: `
+      <p>Tom Holmes examines the relationship between size and survival in fish on Australia's Great Barrier Reef</p>
+      <p>It is a widely held belief among those who study animals that larger size conveys some form of advantage throughout life. The idea that certain body characteristics may influence a prey's ability to survive when being attacked by a predator has received considerable attention in the past, and has been applied to a wide range of both animals and habitats. Body size, weight, growth rate, overall condition, sensory development and escape speed have all been linked to survival. Of these, body size has received the most attention from researchers, which has subsequently led to the development of a number of theories on how this characteristic may influence the predator-prey relationship. One of the most popular of these is known as the 'bigger is better' hypothesis. This theory predicts that larger body size should increase an individual's ability to escape from a predator due to the characteristics associated with this, such as overall strength and visual development. Bigger is thought to be better, but is this always the case?</p>
+      <p>Compared with other habitats and ecosystems, not a great deal is known about predator-prey relationships within tropical reef communities. What we do know is largely limited to predator identity and, to some extent, to what these predators eat. But what drives these interactions and how does body size influence the outcome? How would fish populations respond to the removal of certain predators from a reef fish community? It is precisely these questions that have led our research team to Lizard Island, in the northern sector of the Great Barrier Reef. We want to examine the predator-prey relationship during the 'early juvenile' or larval phase of tropical fish, and determine whether a predator's choice of prey is influenced by factors such as the prey's size, weight and swimming speed, as these characteristics vary from individual to individual at the beginning of the juvenile stage.</p>
+      <p>Most coral reef fish have a life cycle consisting of an open ocean larval phase followed by a juvenile to adult phase near the reef. The transition between the two stages is marked by rapid and dramatic changes in the body of the fish, and a sudden move from the open ocean to coral reef habitats. This point is commonly known as 'settlement'. Not surprisingly, it is also characterised by increased levels of mortality in the first 48 hours following settlement, as individuals are forced to adapt to life not only on the reef but also with a previously unknown set of predators.</p>
+      <p>However, studying the interactions between predators and prey during this phase is no easy task. On the northern Great Barrier Reef, coral reef fish settlement usually occurs within 2-3 days of a new moon during the warmer summer months. These short windows of opportunity, combined with the difficulties associated with working underwater, transporting fish and adapting them to the laboratory, often make research a daunting task. These obstacles are overcome using a combination of innovative techniques, long working hours and a measure of sheer persistence. We collect the larval fish immediately prior to settlement using purpose-built traps that use artificial light to attract and contain fish of this life stage only. These fish are subsequently transported to an aquarium, along with predatory fish, before being used in a series of aquarium and field-based trials.</p>
+      <p>According to the 'bigger is better' hypothesis, being larger at the time of settlement should result in an increased chance of surviving an attack by a predator during the period immediately following settlement. However, our initial research shows that this is not always true. There may be several reasons for this.</p>
+      <p>Communities of reef-based predators can differ considerably over quite small distances. Species that are abundant in one location may be particularly rare in a similar habitat just 100 metres away. In the same way that different predators prefer different types of prey, so too do they prefer different sizes of prey. This relationship is driven by physical characteristics of predators, such as mouth size, and behavioural differences between different predator species. As a result, the predator community into which a reef fish settles may very well determine which individuals survive.</p>
+      <p>So why don't larger individuals survive more often than smaller fish over this period? The answer may well lie in an alternative hypothesis known as 'optimal foraging theory'. According to this theory, being either very large or very small in size should assist prey to escape during a predatory encounter. The theory predicts that a predator should prefer those individuals that provide the greatest energy return. This is generally a trade-off between the potential energy intake from eating a fish and the amount of energy required to catch it. Larger prey provide a higher energy return but smaller prey generally require less energy to catch. This usually results in a preference for medium-sized prey.</p>
+      <p>At the time of settlement, juvenile reef fish vary in the characteristics that can help them survive a predatory attack. However, these characteristics are not strongly associated with body size. For example, larger individuals are not necessarily faster. This means that they may be easier to catch than smaller prey. If this is the case then, according to the optimal foraging theory, predators should prefer larger prey because of their greater energy return. Consequently, larger prey individuals may be targeted by some predators at the time of settlement. Our research hopes to show that larger size may, in fact, be a distinct disadvantage during certain life stages.</p>
+    `
   },
   {
-    title: `Will Eating Less Make You Live Longer?`,
-    meta: `The latest in a conflicting series of studies suggests calorie restriction could potentially slow ageing in humans`,
-    html: `<p>[A] Calorie restriction, or 'semi-starvation' as some refer to it, has been proven to extend lifespan in many living organisms from yeast to mice, but the picture for primates, including humans, is not so clear. Research published by a team at the University of Wisconsin in the United States shows that rhesus monkeys also live longer on a calorie-restricted diet. But those findings disagree with research by the National Institute on Aging (NIA) in Maryland, also in the United States. Rozalyn Anderson, of the Wisconsin team, says the research is not intended as a recommendation of calorie restriction. 'I find the idea monumentally unattractive!' she says. 'We study it because it is so effective at delaying ageing and the onset of age-related disease. It's a way to tease out what it is that creates increased disease vulnerability as a function of age.'</p>
-<p>[B] Both groups started long-term trials on rhesus monkeys in the late 1980s to determine whether calorie restriction would extend the lifespan of primates. In mice, many experiments had come to the same finding: feed them a diet with 30% fewer calories and see a lifespan extension of 40%. The monkey trials were set up in a similar way: researchers took the calorie content of a standard monkey diet, cut it by 30% (while continuing to supply all essential nutrients) and monitored whether those monkeys lived longer, healthier lives than those on the standard diet.</p>
-<p>[C] In 2009, with the monkeys approaching old age, preliminary findings of the two trials started coming in. For the Wisconsin monkeys, calorie restriction seemed to be working. Compared to well-fed control animals, the lean monkeys were living longer and suffering less from the diseases of ageing: diabetes, heart disease and brain diseases. However, in 2012 the NIA results emerged with a dramatically different conclusion: their monkeys were not living any longer than the controls, although they were healthier.</p>
-<p>[D] The Wisconsin group's latest results confirm that their calorie-restricted monkeys are living longer than the controls. They also offer a possible explanation of why the two groups' findings don't agree, and that lies in the treatment of the control group. The Wisconsin study began with monkeys in early adulthood. Initially, all the monkeys were allowed to eat as much as they liked. A few months into the trial, the monkeys were placed into one of two groups: the controls (who continued to be fed as much as they wished) and the calorie-restricted monkeys (who were given an individualised diet of 30% less than they were previously eating).</p>
-<p>[E] The NIA study differed in two ways. First, the control group of monkeys were not allowed to eat as much as they wished. They were given a diet considered to represent a normal calorie count, while the calorie-restricted monkeys were fed 30% less than that. Second, whereas the Wisconsin monkeys were given highly processed food high in sucrose, making it easy to standardise, the NIA diet was based on whole grains, fish oils, and was very low in sugar. These different settings for the normal control diet may provide an explanation of why the two groups showed different results.</p>
-<p>[F] The Wisconsin group may in effect have studied the effects of 'overeating'. Their control animals weighed up to 10% more than average for their age and gender. Compared to them, the calorie-restricted animals not only suffered fewer diseases, they lived longer. Julie Mattison, head of the NIA study, observes that an overweight person who goes to a fast food restaurant every day will obviously benefit if their calories are cut back by 30%.</p>
-<p>[G] The NIA study fed their control monkeys what they considered a 'standard' caloric intake and saw that longevity for monkeys that were fed 30% less was the same. But in Anderson's view, the NIA control monkeys were not fed enough; the NIA was calorie restricting both groups of animals. Their older female control monkeys, for example, weighed nearly 20% less than the national average. Indeed, Anderson points out that several of the NIA control monkeys have lived past the age of 40, far exceeding the 27-year average lifespan for captive rhesus monkeys. 'That's the maximum lifespan ever detected for the species, so the idea that their intervention is doing nothing is really at odds with the data,' says Anderson.</p>
-<p>[H] However, neither group had the right notion of a standard diet according to Leonie Heilbronn, who researches calorie restriction and healthy ageing at the University of Adelaide in Australia. Heilbronn points out that the NIA controls were a very healthy set of monkeys and leaner than a control monkey should be. On the other hand, she notes, the Wisconsin controls were a little bigger than they had to be. On balance, Heilbronn agrees with the Wisconsin researcher's argument. 'I think these studies suggest calorie restriction definitely will increase lifespan,' she says.</p>
-<p>[I] Both studies agree that cutting calories is beneficial to health — in both cases the calorie-restricted monkeys had fewer diseases related to ageing. As to the question of whether calorie restriction extends lifespan in primates, Anderson and Mattison are currently working together to compare the two studies' raw data. They plan to co-publish a joint analysis. The current data conflict will ultimately provide deeper insights into ageing, Anderson predicts. 'The fact the two studies were set up differently, asking the same question in different ways — I think we will gain maximally from that.'</p>`
+    title: 'Will Eating Less Make You Live Longer?',
+    meta: 'Passage 2',
+    html: `
+      <p>The latest in a conflicting series of studies suggests calorie restriction could potentially slow ageing in humans</p>
+      <h3>A</h3>
+      <p>Calorie restriction, or 'semi-starvation' as some refer to it, has been proven to extend lifespan in many living organisms from yeast to mice, but the picture for primates, including humans, is not so clear. Research published by a team at the University of Wisconsin in the United States shows that rhesus monkeys also live longer on a calorie-restricted diet. But those findings disagree with research by the National Institute on Aging (NIA) in Maryland, also in the United States. Rozalyn Anderson, of the Wisconsin team, says the research is not intended as a recommendation of calorie restriction. 'I find the idea monumentally unattractive!' she says. 'We study it because it is so effective at delaying ageing and the onset of age-related disease. It's a way to tease out what it is that creates increased disease vulnerability as a function of age.'</p>
+      <h3>B</h3>
+      <p>Both groups started long-term trials on rhesus monkeys in the late 1980s to determine whether calorie restriction would extend the lifespan of primates. In mice, many experiments had come to the same finding: feed them a diet with 30% fewer calories and see a lifespan extension of 40%. The monkey trials were set up in a similar way: researchers took the calorie content of a standard monkey diet, cut it by 30% (while continuing to supply all essential nutrients) and monitored whether those monkeys lived longer, healthier lives than those on the standard diet.</p>
+      <h3>C</h3>
+      <p>In 2009, with the monkeys approaching old age, preliminary findings of the two trials started coming in. For the Wisconsin monkeys, calorie restriction seemed to be working. Compared to well-fed control animals, the lean monkeys were living longer and suffering less from the diseases of ageing: diabetes, heart disease and brain diseases. However, in 2012 the NIA results emerged with a dramatically different conclusion: their monkeys were not living any longer than the controls, although they were healthier.</p>
+      <h3>D</h3>
+      <p>The Wisconsin group's latest results confirm that their calorie-restricted monkeys are living longer than the controls. They also offer a possible explanation of why the two groups' findings don't agree, and that lies in the treatment of the control group. The Wisconsin study began with monkeys in early adulthood. Initially, all the monkeys were allowed to eat as much as they liked. A few months into the trial, the monkeys were placed into one of two groups: the controls (who continued to be fed as much as they wished) and the calorie-restricted monkeys (who were given an individualised diet of 30% less than they were previously eating).</p>
+      <h3>E</h3>
+      <p>The NIA study differed in two ways. First, the control group of monkeys were not allowed to eat as much as they wished. They were given a diet considered to represent a normal calorie count, while the calorie-restricted monkeys were fed 30% less than that. Second, whereas the Wisconsin monkeys were given highly processed food high in sucrose, making it easy to standardise, the NIA diet was based on whole grains, fish oils, and was very low in sugar. These different settings for the normal control diet may provide an explanation of why the two groups showed different results.</p>
+      <h3>F</h3>
+      <p>The Wisconsin group may in effect have studied the effects of 'overeating'. Their control animals weighed up to 10% more than average for their age and gender. Compared to them, the calorie-restricted animals not only suffered fewer diseases, they lived longer. Julie Mattison, head of the NIA study, observes that an overweight person who goes to a fast food restaurant every day will obviously benefit if their calories are cut back by 30%.</p>
+      <h3>G</h3>
+      <p>The NIA study fed their control monkeys what they considered a 'standard' caloric intake and saw that longevity for monkeys that were fed 30% less was the same. But in Anderson's view, the NIA control monkeys were not fed enough; the NIA was calorie restricting both groups of animals. Their older female control monkeys, for example, weighed nearly 20% less than the national average. Indeed, Anderson points out that several of the NIA control monkeys have lived past the age of 40, far exceeding the 27-year average lifespan for captive rhesus monkeys. 'That's the maximum lifespan ever detected for the species, so the idea that their intervention is doing nothing is really at odds with the data,' says Anderson.</p>
+      <h3>H</h3>
+      <p>However, neither group had the right notion of a standard diet according to Leonie Heilbronn, who researches calorie restriction and healthy ageing at the University of Adelaide in Australia. Heilbronn points out that the NIA controls were a very healthy set of monkeys and leaner than a control monkey should be. On the other hand, she notes, the Wisconsin controls were a little bigger than they had to be. On balance, Heilbronn agrees with the Wisconsin researcher's argument. 'I think these studies suggest calorie restriction definitely will increase lifespan,' she says.</p>
+      <h3>I</h3>
+      <p>Both studies agree that cutting calories is beneficial to health — in both cases the calorie-restricted monkeys had fewer diseases related to ageing. As to the question of whether calorie restriction extends lifespan in primates, Anderson and Mattison are currently working together to compare the two studies' raw data. They plan to co-publish a joint analysis. The current data conflict will ultimately provide deeper insights into ageing, Anderson predicts. 'The fact the two studies were set up differently, asking the same question in different ways — I think we will gain maximally from that.'</p>
+    `
   },
   {
-    title: `Saving the Skink`,
-    meta: `What can be done to save the skink, one of New Zealand's most endangered lizards?`,
-    html: `<p>[A] New Zealand's reptiles come in three forms: the tuatara, the geckos and the skinks. With their gleaming scales, long bodies and often surprisingly short limbs, skinks are instantly recognisable. There are more than 90 species, half of which still await formal description. Identification depends on where specimens are found, and such minutiae as the number of scales on their toes. Two of the largest species of skink – the grand and the Otago – are found only in Otago, in New Zealand's South Island. Skinks, being reptiles, need to regulate their temperature, and lie on sunny rocks to absorb heat. However, the grand and Otago are the only kinds that do not hibernate through winter; when snow can fall even in summer in Otago, there is no point in them lying dormant for extended periods. Like all other New Zealand reptiles except tuatara and the egg-laying Suter's skink, they give birth to tiny baby lizards. Today, the Otago and grand skinks are lucky to reach five years of age in the wild, although in zoos or research centres they can live beyond thirty.</p>
-<p>[B] Unfortunately, extinction may loom for these reptiles. With any decline in New Zealand fauna, predation is always suspected, so the efforts of the Department of Conservation (DOC) have focused on controlling specific pests. An example was a six-year project to control the feral cats on the Otago Skink Reserve, launched in the 1990s. Despite the capture of hundreds of cats, skinks showed no signs of recovery; indeed, there were further declines. The trapping programme also revealed rats and hedgehogs to be predators.</p>
-<p>[C] Parasite infections are also thought to be on the rise. Although no direct health implications have been detected the trend is a concern, as it may signal a subtle deterioration in the skinks' living environment. Infection with mites is suspected of inhibiting reproduction among captive animals.</p>
-<p>[D] Another potential threat is habitat loss. Eight hundred years ago, Otago was covered in forest. However, extensive burning produced wide open tussock country. The skinks' response to this change isn't known, nor what their habitat was in the earlier environment, with its predominance of shrubs and trees. Furthermore, recent intensive farming has led to poor soil. Even if we had the answer to the eradication of predators, we haven't a clue to the habitat we should be recreating for the skinks, or if where they persist is best for conservation.</p>
-<p>[E] It is also puzzling that grands and Otagos are disappearing more rapidly than other species in the same region. The explanation likely lies in their delayed sexual maturity. Taking five years before you can breed is a handicap, since there is little likelihood of surviving that long. If survivors have only two offspring annually, they do little to remedy the situation. The commoner skinks mature earlier and produce more offspring, thereby doing more to counter predator pressure. Not that there is room for complacency concerning these species. As more is learned about the size of skink populations, it becomes clear that even common species may be facing a doubtful future.</p>
-<p>[F] So far, DOC's efforts to eliminate specific predators have not resulted in a recovery of skink numbers. The prediction that less than six years is all the Otagos and grands have left is supported by data from surveys conducted outside the protected area between 1984 and 2002. These show that more than 50 per cent of sub-populations of both skinks have died out over the past years. Populations in other regions are believed to be smaller, although access issues on some properties limit knowledge. No more than five years remain in which to turn things around – a close call considering it will be at least three before detectable response in the populations can be expected owing to their low breeding rate.</p>
-<p>[G] DOC's recovery - programme team has recently embarked upon an experiment to extend nearly two kilometres of mammal - proof fencing around a population of Otagos and grands in the Macraes Flat reserve. Choosing a site was difficult, as with a limited budget and the high cost of the fencing it had to be small. It also had to include vacant space and resources for a growing population. An added complication was that grands and Otagos have subtly different environmental preferences, both of which need catering for.</p>
-<p>[H] Because of the danger of imminent extinction, the team has also had to develop emergency captive-management techniques. Specially permitted breeders, who have had some success in breeding the Otago in captivity, are now developing techniques to breed grands. Captive management, however, is a last resort. The priority is to manage and protect skinks in the wild.</p>
-<p>[I] Getting the public to understand the plight of these creatures is essential. Without public support, their chances are slim. Conservation is as much driven by public opinion as it is by political decisions. In New Zealand, the situation is more pressing than just about anywhere else on the planet because many of its native birds and lizards have simply not evolved to defend themselves against species introduced in the last few hundred years. In the once-isolated islands that form New Zealand, ecosystem collapse didn't happen 5000 years ago or even 500 years ago; it's happening now.</p>
-<p>[J] Fortunately, DOC no longer faces these problems alone. The challenge has been taken up by a group of conservationists representing business, science and agriculture. Central Otago Ecological Trust (COET) aims to establish a refuge for the reintroduction of native species. It has identified suitable habitat and, with the generous support of a local farmer with grazing land there, has begun the construction of a mammal-proof fence to protect a 24-hectare area. The recovery programme and COET provide hope that skinks might once again flourish.</p>`
-  }
+    title: 'Saving the Skink',
+    meta: 'Passage 3',
+    html: `
+      <p>What can be done to save the skink, one of New Zealand's most endangered lizards?</p>
+      <h3>A</h3>
+      <p>New Zealand's reptiles come in three forms: the tuatara, the geckos and the skinks. With their gleaming scales, long bodies and often surprisingly short limbs, skinks are instantly recognisable. There are more than 90 species, half of which still await formal description. Identification depends on where specimens are found, and such minutiae as the number of scales on their toes. Two of the largest species of skink – the grand and the Otago – are found only in Otago, in New Zealand's South Island. Skinks, being reptiles, need to regulate their temperature, and lie on sunny rocks to absorb heat. However, the grand and Otago are the only kinds that do not hibernate through winter; when snow can fall even in summer in Otago, there is no point in them lying dormant for extended periods. Like all other New Zealand reptiles except tuatara and the egg-laying Suter's skink, they give birth to tiny baby lizards. Today, the Otago and grand skinks are lucky to reach five years of age in the wild, although in zoos or research centres they can live beyond thirty.</p>
+      <h3>B</h3>
+      <p>Unfortunately, extinction may loom for these reptiles. With any decline in New Zealand fauna, predation is always suspected, so the efforts of the Department of Conservation (DOC) have focused on controlling specific pests. An example was a six-year project to control the feral cats on the Otago Skink Reserve, launched in the 1990s. Despite the capture of hundreds of cats, skinks showed no signs of recovery; indeed, there were further declines. The trapping programme also revealed rats and hedgehogs to be predators.</p>
+      <h3>C</h3>
+      <p>Parasite infections are also thought to be on the rise. Although no direct health implications have been detected the trend is a concern, as it may signal a subtle deterioration in the skinks' living environment. Infection with mites is suspected of inhibiting reproduction among captive animals.</p>
+      <h3>D</h3>
+      <p>Another potential threat is habitat loss. Eight hundred years ago, Otago was covered in forest. However, extensive burning produced wide open tussock country. The skinks' response to this change isn't known, nor what their habitat was in the earlier environment, with its predominance of shrubs and trees. Furthermore, recent intensive farming has led to poor soil. Even if we had the answer to the eradication of predators, we haven't a clue to the habitat we should be recreating for the skinks, or if where they persist is best for conservation.</p>
+      <h3>E</h3>
+      <p>It is also puzzling that grands and Otagos are disappearing more rapidly than other species in the same region. The explanation likely lies in their delayed sexual maturity. Taking five years before you can breed is a handicap, since there is little likelihood of surviving that long. If survivors have only two offspring annually, they do little to remedy the situation. The commoner skinks mature earlier and produce more offspring, thereby doing more to counter predator pressure. Not that there is room for complacency concerning these species. As more is learned about the size of skink populations, it becomes clear that even common species may be facing a doubtful future.</p>
+      <h3>F</h3>
+      <p>So far, DOC's efforts to eliminate specific predators have not resulted in a recovery of skink numbers. The prediction that less than six years is all the Otagos and grands have left is supported by data from surveys conducted outside the protected area between 1984 and 2002. These show that more than 50 per cent of sub-populations of both skinks have died out over the past years. Populations in other regions are believed to be smaller, although access issues on some properties limit knowledge. No more than five years remain in which to turn things around – a close call considering it will be at least three before detectable response in the populations can be expected owing to their low breeding rate.</p>
+      <h3>G</h3>
+      <p>DOC's recovery programme team has recently embarked upon an experiment to extend nearly two kilometres of mammal-proof fencing around a population of Otagos and grands in the Macraes Flat reserve. Choosing a site was difficult, as with a limited budget and the high cost of the fencing it had to be small. It also had to include vacant space and resources for a growing population. An added complication was that grands and Otagos have subtly different environmental preferences, both of which need catering for.</p>
+      <h3>H</h3>
+      <p>Because of the danger of imminent extinction, the team has also had to develop emergency captive-management techniques. Specially permitted breeders, who have had some success in breeding the Otago in captivity, are now developing techniques to breed grands. Captive management, however, is a last resort. The priority is to manage and protect skinks in the wild.</p>
+      <h3>I</h3>
+      <p>Getting the public to understand the plight of these creatures is essential. Without public support, their chances are slim. Conservation is as much driven by public opinion as it is by political decisions. In New Zealand, the situation is more pressing than just about anywhere else on the planet because many of its native birds and lizards have simply not evolved to defend themselves against species introduced in the last few hundred years. In the once-isolated islands that form New Zealand, ecosystem collapse didn't happen 5000 years ago or even 500 years ago; it's happening now.</p>
+      <h3>J</h3>
+      <p>Fortunately, DOC no longer faces these problems alone. The challenge has been taken up by a group of conservationists representing business, science and agriculture. Central Otago Ecological Trust (COET) aims to establish a refuge for the reintroduction of native species. It has identified suitable habitat and, with the generous support of a local farmer with grazing land there, has begun the construction of a mammal-proof fence to protect a 24-hectare area. The recovery programme and COET provide hope that skinks might once again flourish.</p>
+    `
+  },
 ];
 
 /* Mỗi nhóm câu hỏi gắn với 1 passage (passageIndex 0/1/2) và có
    instructionsHtml hiển thị phía trên nhóm. */
 const QUESTION_GROUPS = [
+  // PASSAGE 1 — Questions 1–4 (TRUE/FALSE/NOT GIVEN)
   {
     passageIndex: 0,
-    instructionsHtml: '<b>Questions 1–4</b><br>Do the following statements agree with the information given in Reading Passage 1?<br>Write <b>TRUE</b> if the statement agrees with the information<br>Write <b>FALSE</b> if the statement contradicts the information<br>Write <b>NOT GIVEN</b> if there is no information on this',
+    instructionsHtml: '<b>Questions 1–4</b><br>Choose <b>TRUE</b> if the statement agrees with the information given in the text, choose <b>FALSE</b> if the statement contradicts the information, or choose <b>NOT GIVEN</b> if there is no information on this.',
     questions: [
-      { n:1, type:'select', text:'Research to date has concentrated on the importance of escape speed in surviving an attack by a predator.', options:[{key:'TRUE', label:''}, {key:'FALSE', label:''}, {key:'NOT GIVEN', label:''}] },
-      { n:2, type:'select', text:'According to the \'bigger is better\' hypothesis, larger animals have better eyesight.', options:[{key:'TRUE', label:''}, {key:'FALSE', label:''}, {key:'NOT GIVEN', label:''}] },
-      { n:3, type:'select', text:'Early-juvenile reef fish share similar characteristics.', options:[{key:'TRUE', label:''}, {key:'FALSE', label:''}, {key:'NOT GIVEN', label:''}] },
-      { n:4, type:'select', text:'Fully developed reef fish have a slower swimming speed than juveniles.', options:[{key:'TRUE', label:''}, {key:'FALSE', label:''}, {key:'NOT GIVEN', label:''}] }
+      { n:1, type:'radio', text:'Research to date has concentrated on the importance of escape speed in surviving an attack by a predator.', options:[{key:'TRUE',label:'TRUE'},{key:'FALSE',label:'FALSE'},{key:'NOT GIVEN',label:'NOT GIVEN'}] },
+      { n:2, type:'radio', text:"According to the 'bigger is better' hypothesis, larger animals have better eyesight.", options:[{key:'TRUE',label:'TRUE'},{key:'FALSE',label:'FALSE'},{key:'NOT GIVEN',label:'NOT GIVEN'}] },
+      { n:3, type:'radio', text:'Early-juvenile reef fish share similar characteristics.', options:[{key:'TRUE',label:'TRUE'},{key:'FALSE',label:'FALSE'},{key:'NOT GIVEN',label:'NOT GIVEN'}] },
+      { n:4, type:'radio', text:'Fully developed reef fish have a slower swimming speed than juveniles.', options:[{key:'TRUE',label:'TRUE'},{key:'FALSE',label:'FALSE'},{key:'NOT GIVEN',label:'NOT GIVEN'}] },
     ]
   },
+  // PASSAGE 1 — Questions 5–7 (Flow-chart — CLOZE)
   {
     passageIndex: 0,
-    instructionsHtml: '<b>Questions 5–13</b><br>Complete the notes below.<br>Choose <b>ONE OR TWO WORDS</b> from the passage for each answer.',
+    instructionsHtml: '<b>Questions 5–7</b><br>Complete the flow-chart below. Write <b>NO MORE THAN TWO WORDS</b> from the passage for each answer.',
     questions: [
-      { n:5, type:'text', text:'Phase 1: Larval stage takes place in the (5) ........................' },
-      { n:6, type:'text', text:'Phase 2: Juvenile stage takes place close to the (6) ........................' },
-      { n:7, type:'text', text:'(7) ........................ rates are high in the early part of this stage' },
-      { n:8, type:'text', text:'Lizard Island study Problems: i) time-change of habitat takes place in summer and is linked to the (8) ........................' },
-      { n:9, type:'text', text:'iii) adaptation-difficult to move and settle fish into the (9) ........................' },
-      { n:10, type:'text', text:'Method: larval fish are drawn into a special trap with the aid of (10) ........................' },
-      { n:11, type:'text', text:'(11) ........................ are also collected' },
-      { n:12, type:'text', text:'Possible reasons why \'bigger\' is not always \'better\': physical features (e.g. (12) ........................) affect which prey a predator can eat' },
-      { n:13, type:'text', text:'optimal foraging theory suggests that the most common choice of prey should be (13) ........................ in size' }
+      {
+        n: 5, type: 'cloze',
+        clozeHtml: `<div class="cloze-block">
+          <div class="cloze-title">Life cycle of fish in the Lizard Island study</div>
+          <div class="cloze-section"><strong>Phase 1: Larval stage</strong><br>takes place in the <span class="cloze-slot" data-q="5"></span></div>
+          <div class="cloze-arrow">↓</div>
+          <div class="cloze-section"><strong>Phase 2: Juvenile stage</strong><br>takes place close to the <span class="cloze-slot" data-q="6"></span><br><em>the move from one habitat to another is called settlement</em><br><span class="cloze-slot" data-q="7"></span> rates are high in the early part of this stage</div>
+          <div class="cloze-arrow">↓</div>
+          <div class="cloze-section"><strong>Phase 3: Adult stage</strong></div>
+        </div>`,
+        slots: [5, 6, 7]
+      }
     ]
   },
+  // PASSAGE 1 — Questions 8–13 (Notes completion — CLOZE)
+  {
+    passageIndex: 0,
+    instructionsHtml: '<b>Questions 8–13</b><br>Complete the notes below. Write <b>NO MORE THAN TWO WORDS</b> from the passage for each answer.',
+    questions: [
+      {
+        n: 8, type: 'cloze',
+        clozeHtml: `<div class="cloze-block">
+          <div class="cloze-title">Lizard Island study</div>
+          <p><strong>Aim:</strong> to study the relationship between predator and prey in juvenile reef fish</p>
+          <p><strong>Problems:</strong></p>
+          <p>i) time – change of habitat takes place in summer and is linked to the <span class="cloze-slot" data-q="8"></span></p>
+          <p>ii) working conditions</p>
+          <p>iii) adaptation – difficult to move and settle fish into the <span class="cloze-slot" data-q="9"></span></p>
+          <p><strong>Method:</strong></p>
+          <p>• larval fish are drawn into a special trap with the aid of <span class="cloze-slot" data-q="10"></span></p>
+          <p>• <span class="cloze-slot" data-q="11"></span> are also collected</p>
+          <p>• both undergo trials</p>
+          <p><strong>Possible reasons why 'bigger' is not always 'better':</strong></p>
+          <p>• the number and type of predatory fish on the reef can vary from place to place</p>
+          <p>• physical features (e.g. <span class="cloze-slot" data-q="12"></span>) affect which prey a predator can eat</p>
+          <p>• optimal foraging theory suggests that the most common choice of prey should be <span class="cloze-slot" data-q="13"></span> in size</p>
+          <p>• large juvenile fish may swim slowly and so may be targeted more often</p>
+        </div>`,
+        slots: [8, 9, 10, 11, 12, 13]
+      }
+    ]
+  },
+  // PASSAGE 2 — Questions 14–19 (Paragraph matching — select, options A–I only)
   {
     passageIndex: 1,
-    instructionsHtml: '<b>Questions 14–19</b><br>Reading Passage 2 has nine paragraphs, <b>A–I</b>.<br>Which paragraph contains the following information?<br>Write the correct letter, <b>A–I</b>, in boxes 14–19 on your answer sheet.',
+    instructionsHtml: '<b>Questions 14–19</b><br>Reading Passage 2 has nine paragraphs, A–I.<br>Which paragraph contains the following information?<br>Choose the correct letter, A–I, in boxes 14–19.',
     questions: [
-      { n:14, type:'select', text:'a reference to studies based on the same level of calorie reduction with different animals', options:[{key:'A', label:''}, {key:'B', label:''}, {key:'C', label:''}, {key:'D', label:''}, {key:'E', label:''}, {key:'F', label:''}, {key:'G', label:''}, {key:'H', label:''}, {key:'I', label:''}] },
-      { n:15, type:'select', text:'a comment that some control monkeys in one study reached an older age than normal for animals of their kind', options:[{key:'A', label:''}, {key:'B', label:''}, {key:'C', label:''}, {key:'D', label:''}, {key:'E', label:''}, {key:'F', label:''}, {key:'G', label:''}, {key:'H', label:''}, {key:'I', label:''}] },
-      { n:16, type:'select', text:'distinctions between the types of food in each study that may have led to a contrast in findings', options:[{key:'A', label:''}, {key:'B', label:''}, {key:'C', label:''}, {key:'D', label:''}, {key:'E', label:''}, {key:'F', label:''}, {key:'G', label:''}, {key:'H', label:''}, {key:'I', label:''}] },
-      { n:17, type:'select', text:'examples of health problems which monkeys on calorie-restricted diets were less likely to get', options:[{key:'A', label:''}, {key:'B', label:''}, {key:'C', label:''}, {key:'D', label:''}, {key:'E', label:''}, {key:'F', label:''}, {key:'G', label:''}, {key:'H', label:''}, {key:'I', label:''}] },
-      { n:18, type:'select', text:'a researcher’s negative opinion of a calorie-restricted diet', options:[{key:'A', label:''}, {key:'B', label:''}, {key:'C', label:''}, {key:'D', label:''}, {key:'E', label:''}, {key:'F', label:''}, {key:'G', label:''}, {key:'H', label:''}, {key:'I', label:''}] },
-      { n:19, type:'select', text:'a reference to the stage in the monkeys’ lives at which research commenced in one study', options:[{key:'A', label:''}, {key:'B', label:''}, {key:'C', label:''}, {key:'D', label:''}, {key:'E', label:''}, {key:'F', label:''}, {key:'G', label:''}, {key:'H', label:''}, {key:'I', label:''}] }
+      { n:14, type:'select', text:'a reference to studies based on the same level of calorie reduction with different animals', options:[{key:'A',label:'A'},{key:'B',label:'B'},{key:'C',label:'C'},{key:'D',label:'D'},{key:'E',label:'E'},{key:'F',label:'F'},{key:'G',label:'G'},{key:'H',label:'H'},{key:'I',label:'I'}] },
+      { n:15, type:'select', text:'a comment that some control monkeys in one study reached an older age than normal for animals of their kind', options:[{key:'A',label:'A'},{key:'B',label:'B'},{key:'C',label:'C'},{key:'D',label:'D'},{key:'E',label:'E'},{key:'F',label:'F'},{key:'G',label:'G'},{key:'H',label:'H'},{key:'I',label:'I'}] },
+      { n:16, type:'select', text:'distinctions between the types of food in each study that may have led to a contrast in findings', options:[{key:'A',label:'A'},{key:'B',label:'B'},{key:'C',label:'C'},{key:'D',label:'D'},{key:'E',label:'E'},{key:'F',label:'F'},{key:'G',label:'G'},{key:'H',label:'H'},{key:'I',label:'I'}] },
+      { n:17, type:'select', text:'examples of health problems which monkeys on calorie-restricted diets were less likely to get', options:[{key:'A',label:'A'},{key:'B',label:'B'},{key:'C',label:'C'},{key:'D',label:'D'},{key:'E',label:'E'},{key:'F',label:'F'},{key:'G',label:'G'},{key:'H',label:'H'},{key:'I',label:'I'}] },
+      { n:18, type:'select', text:"a researcher's negative opinion of a calorie-restricted diet", options:[{key:'A',label:'A'},{key:'B',label:'B'},{key:'C',label:'C'},{key:'D',label:'D'},{key:'E',label:'E'},{key:'F',label:'F'},{key:'G',label:'G'},{key:'H',label:'H'},{key:'I',label:'I'}] },
+      { n:19, type:'select', text:"a reference to the stage in the monkeys' lives at which research commenced in one study", options:[{key:'A',label:'A'},{key:'B',label:'B'},{key:'C',label:'C'},{key:'D',label:'D'},{key:'E',label:'E'},{key:'F',label:'F'},{key:'G',label:'G'},{key:'H',label:'H'},{key:'I',label:'I'}] },
     ]
   },
+  // PASSAGE 2 — Questions 20–23 (Matching researchers — labels without key prefix)
   {
     passageIndex: 1,
-    instructionsHtml: '<b>Questions 20–23</b><br>Look at the following statements and the list of researchers below.<br>Match each statement with the correct researcher, <b>A–C</b>.',
+    instructionsHtml: '<b>Questions 20–23</b><br>Look at the following statements (Questions 20–23) and the list of researchers below. Match each statement with the correct researcher, A, B or C.<br>Choose the correct letter, A, B or C, in boxes 20–23.<br><br><b>NB</b> You may use any letter more than once.<br><br><b>List of Researchers</b><br><b>A.</b> Rozalyn Anderson &nbsp;&nbsp; <b>B.</b> Julie Mattison &nbsp;&nbsp; <b>C.</b> Leonie Heilbronn',
     questions: [
-      { n:20, type:'radio', text:'It is good that the two studies took dissimilar approaches.', options:[{key:'A', label:'Rozalyn Anderson'}, {key:'B', label:'Julie Mattison'}, {key:'C', label:'Leonie Heilbronn'}] },
-      { n:21, type:'radio', text:'Neither study used diets that are typical for monkeys.', options:[{key:'A', label:'Rozalyn Anderson'}, {key:'B', label:'Julie Mattison'}, {key:'C', label:'Leonie Heilbronn'}] },
-      { n:22, type:'radio', text:'Calorie restriction is a method of finding out about health issues connected with ageing.', options:[{key:'A', label:'Rozalyn Anderson'}, {key:'B', label:'Julie Mattison'}, {key:'C', label:'Leonie Heilbronn'}] },
-      { n:23, type:'radio', text:'Calorie reduction will have a positive effect on people who have unhealthy diets.', options:[{key:'A', label:'Rozalyn Anderson'}, {key:'B', label:'Julie Mattison'}, {key:'C', label:'Leonie Heilbronn'}] }
+      { n:20, type:'radio', text:'It is good that the two studies took dissimilar approaches.', options:[{key:'A',label:'Rozalyn Anderson'},{key:'B',label:'Julie Mattison'},{key:'C',label:'Leonie Heilbronn'}] },
+      { n:21, type:'radio', text:'Neither study used diets that are typical for monkeys.', options:[{key:'A',label:'Rozalyn Anderson'},{key:'B',label:'Julie Mattison'},{key:'C',label:'Leonie Heilbronn'}] },
+      { n:22, type:'radio', text:'Calorie restriction is a method of finding out about health issues connected with ageing.', options:[{key:'A',label:'Rozalyn Anderson'},{key:'B',label:'Julie Mattison'},{key:'C',label:'Leonie Heilbronn'}] },
+      { n:23, type:'radio', text:'Calorie reduction will have a positive effect on people who have unhealthy diets.', options:[{key:'A',label:'Rozalyn Anderson'},{key:'B',label:'Julie Mattison'},{key:'C',label:'Leonie Heilbronn'}] },
     ]
   },
+  // PASSAGE 2 — Questions 24–26 (Summary completion — CLOZE)
   {
     passageIndex: 1,
-    instructionsHtml: '<b>Questions 24–26</b><br>Complete the sentences below.<br>Choose <b>ONE WORD ONLY</b> from the passage for each answer.',
+    instructionsHtml: '<b>Questions 24–26</b><br>Complete the summary below. Write <b>ONE WORD ONLY</b> from the passage for each answer.',
     questions: [
-      { n:24, type:'text', text:'Monkeys whose calories were restricted suffered fewer diseases that are associated with the (24) ............ process.' },
-      { n:25, type:'text', text:'Anderson and Mattison have undertaken research to determine if a calorie-restricted diet increases primates’ (25) ............' },
-      { n:26, type:'text', text:'Although there is a (26) ............ between the two sets of data, Anderson believes they will help researchers reach a better understanding.' }
+      {
+        n: 24, type: 'cloze',
+        clozeHtml: `<div class="cloze-block">
+          <div class="cloze-title">Agreement between the two studies on calorie restriction in rhesus monkeys</div>
+          <p>The two studies were in agreement that it is beneficial to cut calories, in terms of health. Monkeys whose calories were restricted suffered fewer diseases that are associated with the <span class="cloze-slot" data-q="24"></span> process. Anderson and Mattison have undertaken research to determine if a calorie-restricted diet increases primates' <span class="cloze-slot" data-q="25"></span>. Although there is a <span class="cloze-slot" data-q="26"></span> between the two sets of data, Anderson believes they will help researchers reach a better understanding.</p>
+        </div>`,
+        slots: [24, 25, 26]
+      }
     ]
   },
+  // PASSAGE 3 — Questions 27–31 (Summary with word bank — CLOZE with select slots)
   {
     passageIndex: 2,
-    instructionsHtml: '<b>Questions 27–31</b><br>Complete the sentences below.<br>Choose <b>ONE OPTION</b> from the box for each answer.<br>Write the correct letter, <b>A–K</b>, in boxes 27–31 on your answer sheet.',
+    instructionsHtml: '<b>Questions 27–31</b><br>Complete the summary using the list of words, A–K, below.<br><br><table class="cloze-bank"><tr><td><b>A</b> eggs</td><td><b>B</b> location</td><td><b>C</b> hooded eyes</td><td><b>D</b> the wild</td><td><b>E</b> body heat</td></tr><tr><td><b>F</b> winter sleep</td><td><b>G</b> captivity</td><td><b>H</b> live young</td><td><b>I</b> digestive process</td><td><b>J</b> small legs</td></tr><tr><td colspan="5"><b>K</b> warmer areas</td></tr></table>',
     questions: [
-      { n:27, type:'select', text:'Skinks are easily distinguished from these other natives by their shiny scale and (27) ......', options:[{key:'A', label:'eggs'}, {key:'B', label:'location'}, {key:'C', label:'hooded eyes'}, {key:'D', label:'the wild'}, {key:'E', label:'body heat'}, {key:'F', label:'winter sleep'}, {key:'G', label:'captivity'}, {key:'H', label:'live young'}, {key:'I', label:'digestive process'}, {key:'J', label:'small legs'}, {key:'K', label:'warmer areas'}] },
-      { n:28, type:'select', text:'In common with other reptiles, the grand and Otago species of skink have cold blood and therefore (28) ...... must be externally controlled.', options:[{key:'A', label:'eggs'}, {key:'B', label:'location'}, {key:'C', label:'hooded eyes'}, {key:'D', label:'the wild'}, {key:'E', label:'body heat'}, {key:'F', label:'winter sleep'}, {key:'G', label:'captivity'}, {key:'H', label:'live young'}, {key:'I', label:'digestive process'}, {key:'J', label:'small legs'}, {key:'K', label:'warmer areas'}] },
-      { n:29, type:'select', text:'They are unique in that they do not require a long (29) ......', options:[{key:'A', label:'eggs'}, {key:'B', label:'location'}, {key:'C', label:'hooded eyes'}, {key:'D', label:'the wild'}, {key:'E', label:'body heat'}, {key:'F', label:'winter sleep'}, {key:'G', label:'captivity'}, {key:'H', label:'live young'}, {key:'I', label:'digestive process'}, {key:'J', label:'small legs'}, {key:'K', label:'warmer areas'}] },
-      { n:30, type:'select', text:'identification depends primarily on their (30) ...... and extremely small physical differences.', options:[{key:'A', label:'eggs'}, {key:'B', label:'location'}, {key:'C', label:'hooded eyes'}, {key:'D', label:'the wild'}, {key:'E', label:'body heat'}, {key:'F', label:'winter sleep'}, {key:'G', label:'captivity'}, {key:'H', label:'live young'}, {key:'I', label:'digestive process'}, {key:'J', label:'small legs'}, {key:'K', label:'warmer areas'}] },
-      { n:31, type:'select', text:'In (31) ......, skinks may potentially live for about 30 years.', options:[{key:'A', label:'eggs'}, {key:'B', label:'location'}, {key:'C', label:'hooded eyes'}, {key:'D', label:'the wild'}, {key:'E', label:'body heat'}, {key:'F', label:'winter sleep'}, {key:'G', label:'captivity'}, {key:'H', label:'live young'}, {key:'I', label:'digestive process'}, {key:'J', label:'small legs'}, {key:'K', label:'warmer areas'}] }
+      {
+        n: 27, type: 'cloze',
+        clozeOptions: [{key:'A',label:'eggs'},{key:'B',label:'location'},{key:'C',label:'hooded eyes'},{key:'D',label:'the wild'},{key:'E',label:'body heat'},{key:'F',label:'winter sleep'},{key:'G',label:'captivity'},{key:'H',label:'live young'},{key:'I',label:'digestive process'},{key:'J',label:'small legs'},{key:'K',label:'warmer areas'}],
+        clozeHtml: `<div class="cloze-block">
+          <div class="cloze-title">Characteristics of New Zealand skinks</div>
+          <p>There are three kinds of reptiles in New Zealand: the tuatara, the gecko and the skink. Skinks are easily distinguished from these other natives by their shiny scales and <span class="cloze-slot cloze-select" data-q="27"></span>. In common with other reptiles, the grand and Otago species of skink have cold blood and therefore <span class="cloze-slot cloze-select" data-q="28"></span> must be externally controlled. They are unique in that they do not require a long <span class="cloze-slot cloze-select" data-q="29"></span>. Many species are yet to be identified, and identification depends primarily on their <span class="cloze-slot cloze-select" data-q="30"></span> and extremely small physical differences. In <span class="cloze-slot cloze-select" data-q="31"></span>, skinks may potentially live for about 30 years.</p>
+        </div>`,
+        slots: [27, 28, 29, 30, 31]
+      }
     ]
   },
+  // PASSAGE 3 — Questions 32–36 (YES/NO/NOT GIVEN)
   {
     passageIndex: 2,
-    instructionsHtml: '<b>Questions 32–36</b><br>Do the following statements agree with the claims of the writer in Reading Passage 3?<br>Write <b>YES</b> if the statement agrees with the claims of the writer<br>Write <b>NO</b> if the statement contradicts the claims of the writer<br>Write <b>NOT GIVEN</b> if it is impossible to say what the writer thinks about this',
+    instructionsHtml: '<b>Questions 32–36</b><br>Choose <b>YES</b> if the statement agrees with the claims of the writer, <b>NO</b> if the statement contradicts the claims of the writer, or <b>NOT GIVEN</b> if it is impossible to say what the writer thinks about this.',
     questions: [
-      { n:32, type:'select', text:'The DOC project to remove feral cats helped stop the decline in Otago skink numbers.', options:[{key:'YES', label:''}, {key:'NO', label:''}, {key:'NOT GIVEN', label:''}] },
-      { n:33, type:'select', text:'Parasite infections are having a serious effect on the physical condition of wild skinks.', options:[{key:'YES', label:''}, {key:'NO', label:''}, {key:'NOT GIVEN', label:''}] },
-      { n:34, type:'select', text:'The best possible habitat for the conservation of skinks is unknown.', options:[{key:'YES', label:''}, {key:'NO', label:''}, {key:'NOT GIVEN', label:''}] },
-      { n:35, type:'select', text:'It is possible that skinks used to have larger numbers of young than they do now.', options:[{key:'YES', label:''}, {key:'NO', label:''}, {key:'NOT GIVEN', label:''}] },
-      { n:36, type:'select', text:'The survival of the common species of skink may soon be at risk.', options:[{key:'YES', label:''}, {key:'NO', label:''}, {key:'NOT GIVEN', label:''}] }
+      { n:32, type:'radio', text:'The DOC project to remove feral cats helped stop the decline in Otago skink numbers.', options:[{key:'YES',label:'YES'},{key:'NO',label:'NO'},{key:'NOT GIVEN',label:'NOT GIVEN'}] },
+      { n:33, type:'radio', text:'Parasite infections are having a serious effect on the physical condition of wild skinks.', options:[{key:'YES',label:'YES'},{key:'NO',label:'NO'},{key:'NOT GIVEN',label:'NOT GIVEN'}] },
+      { n:34, type:'radio', text:'The best possible habitat for the conservation of skinks is unknown.', options:[{key:'YES',label:'YES'},{key:'NO',label:'NO'},{key:'NOT GIVEN',label:'NOT GIVEN'}] },
+      { n:35, type:'radio', text:'It is possible that skinks used to have larger numbers of young than they do now.', options:[{key:'YES',label:'YES'},{key:'NO',label:'NO'},{key:'NOT GIVEN',label:'NOT GIVEN'}] },
+      { n:36, type:'radio', text:'The survival of the common species of skink may soon be at risk.', options:[{key:'YES',label:'YES'},{key:'NO',label:'NO'},{key:'NOT GIVEN',label:'NOT GIVEN'}] },
     ]
   },
+  // PASSAGE 3 — Questions 37–40 (Multiple choice — labels without key prefix)
   {
     passageIndex: 2,
-    instructionsHtml: '<b>Questions 37–40</b><br>Choose the correct letter, <b>A, B, C</b> or <b>D</b>.',
+    instructionsHtml: '<b>Questions 37–40</b><br>Choose the correct answer.',
     questions: [
-      { n:37, type:'radio', text:'According to the sixth paragraph, what is being said about the future of the grand and Otago skinks?', options:[{key:'A', label:'More data is necessary in order for DOC to target the right areas.'}, {key:'B', label:'DOC is uncertain how long a new strategy will take to be effective.'}, {key:'C', label:'There is a considerable risk that DOC will not succeed in saving them.'}, {key:'D', label:'The first step in DOC\'s strategy is to identify their main predator.'}] },
-      { n:38, type:'radio', text:'According to the writer, a problem with the DOC\'s fencing project was that', options:[{key:'A', label:'the fence needed to surround various kinds of habitat.'}, {key:'B', label:'the fence was not the preferred choice of some conservationists.'}, {key:'C', label:'the fence had to be constructed near a heavily populated urban area.'}, {key:'D', label:'there was no way of knowing how many skinks were inside the fence.'}] },
-      { n:39, type:'radio', text:'The writer uses the phrase \'a last resort\' in the eighth paragraph in order to', options:[{key:'A', label:'introduce a recent alternative approach to skink conservation.'}, {key:'B', label:'question whether captive breeding has worked in the past.'}, {key:'C', label:'imply that skinks are unlikely to reproduce outside their usual habitat.'}, {key:'D', label:'express a preference for conserving skinks in their natural environment.'}] },
-      { n:40, type:'radio', text:'What is the writer doing in the final paragraph?', options:[{key:'A', label:'referring to obstacles in the way of skink conservation'}, {key:'B', label:'appealing to landowners to donate land for conservation purposes'}, {key:'C', label:'describing a conservation scheme that is being set up on farmland'}, {key:'D', label:'showing how commercial profit can be made from ecological ventures'}] }
+      { n:37, type:'radio', text:"According to the sixth paragraph, what is being said about the future of the grand and Otago skinks?", options:[
+        {key:'A', label:'More data is necessary in order for DOC to target the right areas.'},
+        {key:'B', label:'DOC is uncertain how long a new strategy will take to be effective.'},
+        {key:'C', label:'There is a considerable risk that DOC will not succeed in saving them.'},
+        {key:'D', label:"The first step in DOC's strategy is to identify their main predator."}
+      ]},
+      { n:38, type:'radio', text:"According to the writer, a problem with the DOC's fencing project was that", options:[
+        {key:'A', label:'the fence needed to surround various kinds of habitat.'},
+        {key:'B', label:'the fence was not the preferred choice of some conservationists.'},
+        {key:'C', label:'the fence had to be constructed near a heavily populated urban area.'},
+        {key:'D', label:'there was no way of knowing how many skinks were inside the fence.'}
+      ]},
+      { n:39, type:'radio', text:"The writer uses the phrase 'a last resort' in the eighth paragraph in order to", options:[
+        {key:'A', label:'introduce a recent alternative approach to skink conservation.'},
+        {key:'B', label:'question whether captive breeding has worked in the past.'},
+        {key:'C', label:'imply that skinks are unlikely to reproduce outside their usual habitat.'},
+        {key:'D', label:'express a preference for conserving skinks in their natural environment.'}
+      ]},
+      { n:40, type:'radio', text:'What is the writer doing in the final paragraph?', options:[
+        {key:'A', label:'referring to obstacles in the way of skink conservation'},
+        {key:'B', label:'appealing to landowners to donate land for conservation purposes'},
+        {key:'C', label:'describing a conservation scheme that is being set up on farmland'},
+        {key:'D', label:'showing how commercial profit can be made from ecological ventures'}
+      ]},
     ]
-  }
+  },
 ];
 
 /* ---------- 2. ĐÁP ÁN ĐÚNG — TODO[AI STUDIO] ----------
@@ -1005,7 +1181,7 @@ const CORRECT_ANSWERS = {
   "30": "B",
   "31": "G",
   "32": "NO",
-  "33": "NOT GIVEN",
+  "33": "NO",
   "34": "YES",
   "35": "NOT GIVEN",
   "36": "YES",
@@ -1040,22 +1216,38 @@ function renderTabs(){
   });
 }
 
+// Cache innerHTML của passage (bao gồm <mark> highlight) theo từng tab.
+// Được cập nhật mỗi lần rời tab, để khi quay lại không mất highlight.
+const passageHtmlCache = {};
+
 function switchTab(i){
+  // Lưu lại innerHTML hiện tại của passage đang xem (có cả mark) trước khi rời
+  const currentPanel = document.getElementById('panel-passage');
+  if(currentPanel && currentPanel.querySelector('.passage-body')){
+    passageHtmlCache[currentTab] = currentPanel.innerHTML;
+  }
   currentTab = i;
   renderTabs();
   renderPassage();
   renderQuestions();
+  renderQMap();
   initCopyProtection();
 }
 
 function renderPassage(){
   const p = PASSAGES[currentTab];
   const panel = document.getElementById('panel-passage');
-  panel.innerHTML = `
-    <div class="passage-title">${p.title}</div>
-    <div class="passage-meta">${p.meta}</div>
-    <div class="passage-body">${p.html}</div>
-  `;
+  // Nếu đã có cache (học sinh đã từng xem và có thể đã highlight), dùng lại
+  // cache thay vì render lại từ html gốc — giữ nguyên toàn bộ <mark>
+  if(passageHtmlCache[currentTab]){
+    panel.innerHTML = passageHtmlCache[currentTab];
+  } else {
+    panel.innerHTML = `
+      <div class="passage-title">${p.title}</div>
+      <div class="passage-meta">${p.meta}</div>
+      <div class="passage-body">${p.html}</div>
+    `;
+  }
 }
 
 function renderQuestions(){
@@ -1079,6 +1271,11 @@ function renderQuestions(){
 }
 
 function renderQuestionItem(q){
+  // Special handling for cloze type — renders full block, no separate qnum circle
+  if(q.type === 'cloze'){
+    return renderClozeItem(q);
+  }
+
   const item = document.createElement('div');
   item.className = 'qitem';
   item.id = 'anchor-' + q.n;
@@ -1111,6 +1308,86 @@ function renderQuestionItem(q){
   return item;
 }
 
+function renderClozeItem(q){
+  // Container anchored to first slot number
+  const item = document.createElement('div');
+  item.className = 'qitem qitem-cloze';
+  item.id = 'anchor-' + q.n;
+
+  // Label row showing which question numbers this block covers
+  const labelRow = document.createElement('div');
+  labelRow.className = 'qnum-row';
+  const slots = q.slots || [q.n];
+  labelRow.innerHTML = '<span>Câu ' + slots.join(', ') + '</span>';
+  item.appendChild(labelRow);
+
+  // Inject cloze HTML
+  const wrapper = document.createElement('div');
+  wrapper.innerHTML = q.clozeHtml;
+  item.appendChild(wrapper);
+
+  // For each slot, wire up an input or select
+  slots.forEach(n => {
+    const slotEl = wrapper.querySelector('[data-q="' + n + '"]');
+    if(!slotEl) return;
+
+    // Build number badge
+    const badge = document.createElement('span');
+    badge.className = 'cloze-qnum';
+    badge.textContent = n;
+    slotEl.insertBefore(badge, slotEl.firstChild);
+
+    if(slotEl.classList.contains('cloze-select')){
+      // Dropdown select (word bank)
+      const sel = document.createElement('select');
+      sel.className = 'ans-select-inline';
+      sel.dataset.q = n;
+      sel.disabled = isReviewMode;
+      const blank = document.createElement('option');
+      blank.value = ''; blank.textContent = '—';
+      sel.appendChild(blank);
+      const opts = q.clozeOptions || [];
+      opts.forEach(o => {
+        const opt = document.createElement('option');
+        opt.value = o.key;
+        opt.textContent = o.key + ' — ' + o.label;
+        sel.appendChild(opt);
+      });
+      sel.value = answers[n] || '';
+      sel.addEventListener('change', () => {
+        setAnswer(n, sel.value);
+        refreshQItemState(item, q.n);
+      });
+      slotEl.appendChild(sel);
+    } else {
+      // Text input
+      const inp = document.createElement('input');
+      inp.type = 'text';
+      inp.dataset.q = n;
+      inp.placeholder = '…';
+      inp.value = answers[n] || '';
+      inp.disabled = isReviewMode;
+      inp.addEventListener('input', () => {
+        setAnswer(n, inp.value.trim());
+        refreshQItemState(item, q.n);
+      });
+      slotEl.appendChild(inp);
+    }
+  });
+
+  // Flag button anchored to first slot
+  const flagBtn = document.createElement('button');
+  flagBtn.className = 'qflag-btn';
+  flagBtn.dataset.q = q.n;
+  flagBtn.textContent = '🚩';
+  flagBtn.style.alignSelf = 'flex-end';
+  flagBtn.addEventListener('click', () => toggleFlag(q.n));
+  item.appendChild(flagBtn);
+
+  refreshQItemState(item, q.n);
+  return item;
+}
+
 function renderAnswerInput(q){
   if(q.type === 'text'){
     const inp = document.createElement('input');
@@ -1133,7 +1410,9 @@ function renderAnswerInput(q){
     sel.appendChild(blank);
     (q.options||[]).forEach(o=>{
       const opt = document.createElement('option');
-      opt.value = o.key; opt.textContent = o.key + (o.label ? ' — '+o.label : '');
+      opt.value = o.key;
+      // Chỉ hiện "A — nội dung" khi label khác key; nếu label = key chỉ hiện key
+      opt.textContent = (o.label && o.label !== o.key) ? o.key + ' — ' + o.label : o.key;
       sel.appendChild(opt);
     });
     sel.value = answers[q.n] || '';
@@ -1156,7 +1435,7 @@ function renderAnswerInput(q){
         lbl.classList.add('checked');
       });
       const span = document.createElement('span');
-      span.textContent = o.key + '. ' + o.label;
+      span.textContent = (o.label && o.label !== o.key) ? o.key + '. ' + o.label : o.key;
       lbl.appendChild(inp); lbl.appendChild(span);
       wrap.appendChild(lbl);
     });
@@ -1176,7 +1455,7 @@ function renderAnswerInput(q){
       inp.disabled = isReviewMode;
       inp.addEventListener('change', ()=> handlePairToggle(pairKey, q, wrap));
       const span = document.createElement('span');
-      span.textContent = o.key + '. ' + o.label;
+      span.textContent = (o.label && o.label !== o.key) ? o.key + '. ' + o.label : o.key;
       lbl.appendChild(inp); lbl.appendChild(span);
       wrap.appendChild(lbl);
     });
@@ -1213,8 +1492,18 @@ function handlePairToggle(pairKey, q, wrapEl){
     const cb = el.querySelector('input');
     el.classList.toggle('checked', cb.checked);
   });
-  // map cả 2 số câu n riêng lẻ cho qmap/flag hiển thị tiến độ
-  ns.forEach(n => { answers[n] = arr.length ? arr.join(',') : undefined; if(!arr.length) delete answers[n]; });
+  // QUAN TRỌNG: mỗi câu trong cặp (vd 19 & 20) phải lưu ĐÚNG 1 đáp án
+  // riêng của nó — KHÔNG được gán chung 1 chuỗi nối "A,C" vào cả 2 câu,
+  // vì như vậy gradeAnswers() sẽ luôn chấm sai (so sánh "A,C" với đáp án
+  // đúng "A" sẽ không bao giờ khớp) và dữ liệu gửi lên Sheet cũng sai.
+  // Quy ước: arr[0] -> câu có số nhỏ hơn (ns[0]), arr[1] -> câu số lớn hơn (ns[1]).
+  // Thứ tự trong arr theo đúng thứ tự học sinh tick chọn trên UI; để đảm bảo
+  // ổn định, ta sắp xếp lại theo alphabet của key đáp án (A,B,C...) trước khi gán.
+  const sortedArr = [...arr].sort();
+  ns.forEach((n, idx)=>{
+    if(sortedArr[idx]){ answers[n] = sortedArr[idx]; }
+    else { delete answers[n]; }
+  });
   saveProgress();
   refreshAllQItemStates();
   renderQMap();
@@ -1255,30 +1544,49 @@ function toggleFlag(n){
 }
 
 /* ---------- Question Map (sidebar) ---------- */
+function getAllNsFromGroups(groups){
+  // Expands cloze questions to their full slot list
+  return groups.flatMap(g => g.questions.flatMap(q => q.type === 'cloze' ? (q.slots || [q.n]) : [q.n]));
+}
+
 function renderQMap(){
   const map = document.getElementById('qmap');
   map.innerHTML = '';
-  let answeredCount = 0;
-  for(let n=1; n<=TOTAL_QUESTIONS; n++){
+
+  // Chỉ hiển thị các câu thuộc passage đang xem
+  const currentGroups = QUESTION_GROUPS.filter(g => g.passageIndex === currentTab);
+  const currentNs = getAllNsFromGroups(currentGroups);
+
+  let answeredInPassage = 0;
+  currentNs.forEach(n => {
     const cell = document.createElement('div');
     cell.className = 'qmap-cell';
     cell.textContent = n;
-    const isAnswered = !!answers[n];
-    if(isAnswered){ cell.classList.add('answered'); answeredCount++; }
+    if(answers[n]){ cell.classList.add('answered'); answeredInPassage++; }
     if(flags[n]) cell.classList.add('flagged');
     cell.addEventListener('click', ()=> goToQuestion(n));
     map.appendChild(cell);
-  }
-  document.getElementById('sb-map-progress').textContent = answeredCount + '/' + TOTAL_QUESTIONS;
+  });
+
+  // Progress: câu đã làm trong passage này / tổng câu passage này
+  document.getElementById('sb-map-progress').textContent =
+    answeredInPassage + '/' + currentNs.length;
 }
 
 function goToQuestion(n){
-  const groupIdx = QUESTION_GROUPS.findIndex(g => g.questions.some(q=>q.n===n));
+  // Find group: for cloze questions, n may be a slot not the q.n itself
+  const groupIdx = QUESTION_GROUPS.findIndex(g => g.questions.some(q => {
+    if(q.type === 'cloze') return (q.slots||[q.n]).includes(n);
+    return q.n === n;
+  }));
   if(groupIdx === -1) return;
   const targetTab = QUESTION_GROUPS[groupIdx].passageIndex;
   if(targetTab !== currentTab) switchTab(targetTab);
   setTimeout(()=>{
-    const el = document.getElementById('anchor-'+n);
+    // For cloze: find the group's first question n as the anchor
+    const grp = QUESTION_GROUPS[groupIdx];
+    const anchorN = grp.questions[0].n;
+    const el = document.getElementById('anchor-'+anchorN);
     if(el){
       el.scrollIntoView({behavior:'smooth', block:'center'});
       el.style.boxShadow = '0 0 0 2px var(--gold)';
@@ -1490,15 +1798,17 @@ function wrapRangeWithMark(range, color){
 }
 
 function saveHighlights(){
-  const passageHtml = document.getElementById('panel-passage').querySelector('.passage-body')?.innerHTML || '';
-  const questionsHtml = document.getElementById('panel-questions').innerHTML;
-  // Lưu highlight theo từng tab riêng để không lẫn giữa các passage
+  const passagePanel = document.getElementById('panel-passage');
+  const passageBody = passagePanel?.querySelector('.passage-body');
+  const passageHtml = passageBody?.innerHTML || '';
+
+  // Cập nhật cache in-memory ngay lập tức để switchTab không bị dùng bản cũ
+  if(passagePanel) passageHtmlCache[currentTab] = passagePanel.innerHTML;
+
+  // Lưu vào localStorage để khôi phục khi reload trang
   let store = JSON.parse(localStorage.getItem(LS_PREFIX+'highlights') || '{}');
   store[currentTab] = { passage: passageHtml, questionsSnapshotTime: Date.now() };
-  // Ghi chú: ta KHÔNG lưu lại toàn bộ questionsHtml vì nó chứa input/value động;
-  // thay vào đó lưu riêng các mark trong câu hỏi bằng cách quét outerHTML của mark.
-  // Đơn giản & ổn định hơn: lưu toàn bộ outerHTML của các phần tử có thể chứa mark.
-  store[currentTab].marksPassage = extractMarksMap(document.getElementById('panel-passage'));
+  store[currentTab].marksPassage = extractMarksMap(passagePanel);
   store[currentTab].marksQuestions = extractMarksMap(document.getElementById('panel-questions'));
   localStorage.setItem(LS_PREFIX+'highlights', JSON.stringify(store));
 }
@@ -1519,11 +1829,16 @@ function extractMarksMap(container){
    tuần tự (best-effort). Đây là phương án ổn định cho nội dung tĩnh. */
 function restoreHighlights(){
   const store = JSON.parse(localStorage.getItem(LS_PREFIX+'highlights') || '{}');
+
+  // Khôi phục highlight cho tab hiện tại
   const data = store[currentTab];
-  if(!data) return;
-  // Re-apply trên passage (text tĩnh, không có input nên an toàn để khôi phục theo thứ tự xuất hiện)
-  reapplyMarksByOrder(document.getElementById('panel-passage'), data.marksPassage || []);
-  reapplyMarksByOrder(document.getElementById('panel-questions'), data.marksQuestions || []);
+  if(data){
+    reapplyMarksByOrder(document.getElementById('panel-passage'), data.marksPassage || []);
+    reapplyMarksByOrder(document.getElementById('panel-questions'), data.marksQuestions || []);
+    // Cập nhật cache sau khi đã re-apply marks
+    const panel = document.getElementById('panel-passage');
+    if(panel) passageHtmlCache[currentTab] = panel.innerHTML;
+  }
 }
 
 function reapplyMarksByOrder(container, marksList){
@@ -1692,7 +2007,7 @@ function doSubmit(isAuto){
   showResultScreen(correctCount);
 }
 
-/* ---------- GAS submission (GET, fetch primary + Image fallback) ---------- */
+/* ---------- GAS submission (GET, sendBeacon primary + fetch fallback + Image beacon) ---------- */
 function sendToSheet(payload){
   const queryParams = new URLSearchParams();
   queryParams.append('test_name', payload.test_name);
@@ -1703,11 +2018,23 @@ function sendToSheet(payload){
   queryParams.append('answers', JSON.stringify(payload.answers));
   const finalUrl = `${GAS_URL}?${queryParams.toString()}`;
 
-  fetch(finalUrl, { method:'GET', mode:'no-cors', keepalive:true })
-    .then(()=> console.log('Đã gửi dữ liệu qua Fetch GET'))
-    .catch((err)=>{
-      console.error('Lỗi Fetch GET, fallback Image beacon:', err);
-      try{ const img = new Image(); img.src = finalUrl; }catch(e){ console.error('Lỗi Image beacon:', e); }
+  // Ưu tiên 1: navigator.sendBeacon — hoạt động tốt khi tab đóng, không cần CORS
+  let sentViaBec = false;
+  if(typeof navigator.sendBeacon === 'function'){
+    try{
+      sentViaBec = navigator.sendBeacon(finalUrl);
+      if(sentViaBec){ console.log('Đã gửi dữ liệu qua sendBeacon'); return; }
+    }catch(e){ /* fallthrough */ }
+  }
+
+  // Ưu tiên 2: fetch GET no-cors (KHÔNG dùng keepalive để tránh lỗi browser)
+  fetch(finalUrl, { method: 'GET', mode: 'no-cors' })
+    .then(() => console.log('Đã gửi dữ liệu qua Fetch GET'))
+    .catch((err) => {
+      console.warn('Fetch GET thất bại, thử Image beacon:', err);
+      // Ưu tiên 3: Image beacon — last resort
+      try{ new Image().src = finalUrl + '&_t=' + Date.now(); }
+      catch(e){ console.error('Image beacon cũng thất bại:', e); }
     });
 }
 
@@ -1933,6 +2260,15 @@ function bootstrapExamUI(startTimerNow){
   verifyLockedNotices();
   initCopyProtection();
 }
+
+/* Lưu thời gian còn lại ngay khi học sinh đóng tab / reload trang —
+   tránh mất vài giây do setInterval chưa kịp save ở giây cuối cùng.
+   Dùng synchronous localStorage.setItem trong beforeunload là an toàn. */
+window.addEventListener('beforeunload', ()=>{
+  if(!isSubmitted && studentInfo.name){
+    saveProgress();
+  }
+});
 
 /* fix tỉ lệ màn hình: đảm bảo nút Nộp bài luôn trong viewport bằng flex column
    + media query (max-height:720px) đã xử lý ở CSS. Không cần JS bổ sung trừ khi
